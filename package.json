@@ -1,0 +1,11 @@
+{
+  "name": "password-generator-cli",
+  "version": "1.0.0",
+  "description": "A simple CLI tool for generating passwords.",
+  "main": "index.js",
+  "bin": {
+    "password-gen": "./index.js"
+  },
+  "author": "Logan Gillingham",
+  "license": "MIT"
+}
