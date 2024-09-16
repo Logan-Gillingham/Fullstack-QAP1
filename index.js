@@ -11,22 +11,25 @@ Usage:
   --length <num>    Specify the password length (default is 8)
   --numbers         Include numbers in the password
   --uppercase       Include uppercase letters in the password
+  --symbols         Include symbols in the password
 
 Examples:
   $ password-gen --length 12 --numbers --uppercase
-  $ password-gen --numbers
+  $ password-gen --symbols --numbers
 `;
 
 const charset = {
   lowercase: 'abcdefghijklmnopqrstuvwxyz',
   numbers: '0123456789',
-  uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  symbols: '!@#$%^&*()_+-=[]{}|;:,.<>/?'
 };
 
-function generatePassword(length = 8, useNumbers = false, useUppercase = false) {
+function generatePassword(length = 8, useNumbers = false, useUppercase = false, useSymbols = false) {
   let availableChars = charset.lowercase;
   if (useNumbers) availableChars += charset.numbers;
   if (useUppercase) availableChars += charset.uppercase;
+  if (useSymbols) availableChars += charset.symbols;
 
   let password = '';
   for (let i = 0; i < length; i++) {
@@ -40,6 +43,7 @@ function parseArgs() {
   let length = 8;
   let useNumbers = false;
   let useUppercase = false;
+  let useSymbols = false;
 
   if (args.includes('--help')) {
     console.log(helpMessage);
@@ -63,12 +67,16 @@ function parseArgs() {
     useUppercase = true;
   }
 
-  return { length, useNumbers, useUppercase};
+  if (args.includes('--symbols')) {
+    useSymbols = true;
+  }
+
+  return { length, useNumbers, useUppercase, useSymbols };
 }
 
 function main() {
-  const { length, useNumbers, useUppercase} = parseArgs();
-  const password = generatePassword(length, useNumbers, useUppercase);
+  const { length, useNumbers, useUppercase, useSymbols } = parseArgs();
+  const password = generatePassword(length, useNumbers, useUppercase, useSymbols);
   console.log('Generated password:', password);
 }
 
